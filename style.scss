@@ -1,0 +1,41 @@
+html, body, #game {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	font-family: "Merriweather", serif;
+	font-size: 18px;
+}
+
+#background {
+	position: absolute;
+}
+
+#story {
+	width: 500px;
+	padding: 15px;
+	text-align: center;
+	position: fixed;
+	border-radius: 5px;
+	color: #fff;
+	overflow: hidden;
+}
+
+#blur {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: -2;
+}
+
+#shade {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	opacity: 0.4;
+	z-index: -1;
+}
