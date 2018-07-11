@@ -1,13 +1,14 @@
+var merge = require("merge");
 var encounters = require("./encounters");
 
 class Game {
 	constructor(ui) {
 		this.ui = ui;
-		this.encounter = new Encounter(encounters["questGuy"]);
+		this.encounter = new Encounter(encounters["jester"], this);
 		ui.setMain(this.encounter.getText(), this.encounter.getButtons());
 		this.ui.on("mainClick", function(i) {
-			if (this.encounter.act(i)) {
-				this.encounter = new Encounter(encounters["questGuy"]);
+			if (this.encounter.selectButton(i)) {
+				this.encounter = new Encounter(encounters["jester"]);
 			}
 			ui.setMain(this.encounter.getText(), this.encounter.getButtons());
 		}.bind(this));
@@ -15,12 +16,13 @@ class Game {
 }
 
 class Encounter {
-	constructor(encounter) {
-		Object.assign(this, encounter);
+	constructor(encounter, game) {
+		merge.recursive(this, encounter);
 		this.node = this.nodes[this.start];
+		this.game = game;
 	}
 	getText() {
-		return this.node.text;
+		return this.formatText(this.node.text);
 	}
 	getButtons() {
 		var buttons = [];
@@ -33,13 +35,25 @@ class Encounter {
 		}
 		return buttons;
 	}
-	act(i) {
+	selectButton(i) {
 		if (this.node.buttons) {
 			this.node = this.nodes[this.node.buttons[i][1]];
 		} else {
 			this.node = null;
 		}
 		return (this.node == null);
+	}
+	formatText(text) {
+		this.nodes.offer.text = "bee";
+		console.log(this);
+		console.log(encounters.jester);
+		for (var attribute in this.attributes) {
+			if (typeof this.attributes[attribute] == "function") {
+				this.attributes[attribute] = 3;//this.attributes[attribute](game);
+			}
+			text = text.replace(new RegExp("{" + attribute + "}", "gi"), this.attributes[attribute]);
+		}
+		return text;
 	}
 }
 

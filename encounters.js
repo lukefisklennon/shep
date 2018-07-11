@@ -1,3 +1,6 @@
+var chance = require("./chance");
+var random = require("./random");
+
 module.exports = {
 	bartender: {
 		description: "A bartender is serving drinks.",
@@ -13,7 +16,7 @@ module.exports = {
 			},
 			accept: {
 				text: "“Enjoy!”",
-				script: function(game) {
+				script: (game) => {
 					game.modifyGold(-5);
 					game.addItem("drink");
 				}
@@ -46,8 +49,8 @@ module.exports = {
 			offer_0: {
 				text: "“And you – but I’m not here to exchange pleasantries. You want my help or not?”",
 				buttons: [
-					["“Alright, let’s hear this”", "info"],
-					["“I’m not interested”", "decline_1"]
+					["“Alright, let’s hear this.”", "info"],
+					["“I’m not interested.”", "decline_1"]
 				]
 			},
 			info: {
@@ -67,7 +70,7 @@ module.exports = {
 				text: "“That’s… not the point. Do you want my help or not?”",
 				buttons: [
 					["“Alright, let’s hear this.”", "info"],
-					["“I’m not interested”", "decline_1"]
+					["“I’m not interested.”", "decline_1"]
 				]
 			},
 			decline_1: {
@@ -91,7 +94,7 @@ module.exports = {
 			fightAccept: {
 				text: "“Well...” Nameless grins at you maliciously. “How could I possibly turn down an honest challenge?”",
 				buttons: [
-					["Take this outside", "fightStart"]
+					["Continue", "fightStart"]
 				]
 			},
 			fightStart: {
@@ -133,6 +136,49 @@ module.exports = {
 				text: "His attack is simply too fast, and as his fist collides with the underside of your jaw, you’re overcome by blinding pain. You stumble and fall hard on the ground, and after a moment when your head’s stopped spinning see nameless standing over you, indifferently taking an apple out of his pocket and beginning to eat.",
 				buttons: [
 					["Groan", "fightExit"]
+				]
+			}
+		}
+	},
+	jester: {
+		description: "A mysterious and suspicious looking guy is huddled in the corner.",
+		button: "Approach the mysterious guy",
+		start: "offer",
+		attributes: {
+			name: () => random.male()
+		},
+		nodes: {
+			offer: {
+				text: "“Salutations to you, my fine fellow! My name is {name}, and I’d like offer my services to you, the best jester in all the land! You’ll laugh, you’ll cheer; I was once the resident jester for the king’s court, you know – until… until the incident…”",
+				buttons: [
+					["“How much do you want?”", "info_0"],
+					["“Incident?”", "incident"],
+					["“I’ll pass.”", null]
+				]
+			},
+			info_0: {
+				text: "At your question, {name} seems to pick up his cheery attitude again with a start, and continues with renewed vigour. “Why, only a small fee of 10 gold pieces of course! I’ll continue jesting until you’re tired from laughing!”",
+				buttons: [
+					["“You’re hired.”", "accept"],
+					["“Why would I hire you?”", "info_1"],
+					["“Not for me.”", null]
+				]
+			},
+			accept: {
+				text: "{name} practically bounces in the air at your words, and begins following you around, juggling and laughing as he goes.",
+			},
+			info_1: {
+				text: "“There are a multitude of reasons to have fun! You look like the adventurous type, yes? Then I shall jest at your foes so they can no longer fight for all the fun they’re having!”",
+				buttons: [
+					["“You’re hired.”", "accept"],
+					["“Not for me.”", null]
+				]
+			},
+			incident: {
+				text: "“Did I say incident? Forget about all that – what do you require? I can juggle, sing, dance, and I’m known to be quite the joker!”",
+				buttons: [
+					["“How much do you want?”", "info_0"],
+					["“I’ll pass.”", null]
 				]
 			}
 		}
