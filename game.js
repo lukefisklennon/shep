@@ -1,4 +1,4 @@
-var merge = require("merge");
+var clone = require("clone");
 var encounters = require("./encounters");
 
 class Game {
@@ -17,7 +17,7 @@ class Game {
 
 class Encounter {
 	constructor(encounter, game) {
-		merge.recursive(this, encounter);
+		Object.assign(this, clone(encounter));
 		this.node = this.nodes[this.start];
 		this.game = game;
 	}
@@ -44,13 +44,8 @@ class Encounter {
 		return (this.node == null);
 	}
 	formatText(text) {
-		this.nodes.offer.text = "bee";
-		console.log(this);
-		console.log(encounters.jester);
 		for (var attribute in this.attributes) {
-			if (typeof this.attributes[attribute] == "function") {
-				this.attributes[attribute] = 3;//this.attributes[attribute](game);
-			}
+			if (typeof this.attributes[attribute] == "function") this.attributes[attribute] = this.attributes[attribute]();
 			text = text.replace(new RegExp("{" + attribute + "}", "gi"), this.attributes[attribute]);
 		}
 		return text;

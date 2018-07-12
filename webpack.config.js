@@ -5,7 +5,7 @@ module.exports = {
 	entry: "./main.js",
 	output: {
 		filename: "bundle.js",
-		path: path.resolve(__dirname)
+		path: path.resolve(__dirname, "static")
 	},
 	module: {
         rules: [{
@@ -28,6 +28,7 @@ module.exports = {
 		}]
 	},
 	devServer: {
-		port: 80
+		port: 80,
+		contentBase: "./static"
 	}
 };
