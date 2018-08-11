@@ -19,7 +19,7 @@ class Ui extends EventEmitter {
 			var element = document.createElement("div");
 			element.classList.add("main-button");
 			element.innerText = button;
-			element.onclick = (i) => {
+			element.onclick = function(i) {
 				this.emit("mainClick", i);
 			}.bind(this, i);
 			this.mainButtons.appendChild(element);
